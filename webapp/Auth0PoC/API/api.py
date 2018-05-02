@@ -45,12 +45,12 @@ def add_item():
     return '', 204
 
 
-@app.route('/items/<int:key>')
+@app.route('/items/<key>')
 def show_item(key):
     """
     Get a single item.
     :param key:
-    :return: either json version of the itehm or an error string X 404
+    :return: either json version of the item or an error string X 404
     """
     result = models.Item.get(key)
     if result is None:
@@ -59,7 +59,7 @@ def show_item(key):
         return jsonify(result)
 
 
-@app.route('/items/<int:key>', methods=['DELETE'])
+@app.route('/items/<key>', methods=['DELETE'])
 def delete_item(key):
     """
     Delete an item.

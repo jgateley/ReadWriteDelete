@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'social_django',
     'ReadWriteDelete.apps.ReadwritedeleteConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -121,3 +122,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SOCIAL_AUTH_TRAILING_SLASH = False                    # Remove end slash from routes
+SOCIAL_AUTH_AUTH0_DOMAIN = 'johngateley.auth0.com'
+SOCIAL_AUTH_AUTH0_KEY = '4wZYFmihsJ96V6Mf0uHUBxuQ23EfJceU'
+SOCIAL_AUTH_AUTH0_SECRET = 'DdJk7skN4nKcCfXIBYRNm67HYKJXUzi6ns9LTDxh5wMdMbZV9wqGu-BnnNku0zJV'
+
+SOCIAL_AUTH_AUTH0_SCOPE = [
+    'openid',
+    'profile',
+]
+
+AUTHENTICATION_BACKENDS = {
+    'ReadWriteDelete.auth0backend.Auth0',
+    'django.contrib.auth.backends.ModelBackend'
+}
+
+LOGIN_URL = "/login/auth0"
+LOGIN_REDIRECT_URL = "/items"
+LOGOUT_REDIRECT_URL = "/index"
