@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+{% if item %}
+<h1>Item</h1>
+Key: {{ item.key }}<br />
+Value: {{ item.value }}<br />
+<div class="row">
+    <div class="col col-sm-auto">
+        <form action="{% url 'ReadWriteDelete:item' item.key %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" class="form-control" name="key" value="{{ item.key }}"/>
+            <input type="submit" name="initial" value="Delete" />
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

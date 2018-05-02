@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+<h1>All Items</h1>
+{% if items %}
+    {% for item in items %}
+        <div class="row">
+            <div class="col col-sm-auto">
+                <a href="{% url 'ReadWriteDelete:item' item.key %}">{{ item.key }}</a>
+            </div>
+            <div class="col col-sm-auto">
+                {{ item.value }}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="col col-sm-auto">There are no items.</div>
+{% endif %}
+    <h1>Create a new item</h1>
+<div class="row">
+    <div class="col col-sm-auto">
+        <form action="{% url 'ReadWriteDelete:index' %}" method="post">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="key" />
+            <input type="text" class="form-control" name="value" />
+            <input type="submit" name="initial" value="Create New" />
+        </form>
+    </div>
+</div>
+{% endblock %}
