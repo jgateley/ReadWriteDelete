@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 import json
@@ -17,9 +18,13 @@ def items(request):
     if request.POST != {}:
         r = requests.post('http://localhost:5010/items',
                           json={'key': request.POST['key'], 'value': request.POST['value']})
-        if r.status_code != 204:
+        if r.status_code == 401:
+            return HttpResponse('Unauthorized', status=401)
+        elif r.status_code != 204:
             context['error_message'] = r.content
     r = requests.get('http://localhost:5010/items')
+    if r.status_code == 401:
+        return HttpResponse('Unauthorized', status=401)
     context['items'] = r.json()
     user = request.user
     auth0user = user.social_auth.get(provider="auth0")
@@ -45,12 +50,16 @@ def item(request, key):
     context = {}
     if request.POST != {}:
         r = requests.delete('http://localhost:5010/items/' + key)
-        if r.status_code != 204:
+        if r.status_code == 401:
+            return HttpResponse('Unauthorized', status=401)
+        elif r.status_code != 204:
             context['error_message'] = r.content
         else:
             return redirect(reverse('ReadWriteDelete:items'))
     r = requests.get('http://localhost:5010/items/' + key)
-    if r.status_code != 200:
+    if r.status_code == 401:
+        return HttpResponse('Unauthorized', status=401)
+    elif r.status_code != 200:
         context['error_message'] = 'Item not found'
     else:
         context['item'] = r.json()
