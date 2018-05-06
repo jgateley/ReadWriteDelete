@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+    <h1>All Items</h1>
+    {% if items %}
+	    {% for item in items %}
+            <div class="row">
+                <div class="col col-sm-auto">
+                    <a href="/item/{{ item.key }}">{{ item.key }}</a>
+                </div>
+                <div class="col col-sm-auto">
+                    {{ item.value }}
+                </div>
+            </div>
+	    {% endfor %}
+    {% else %}
+        <div class="col col-sm-auto">There are no items.</div>
+    {% endif %}
+    <h1>Create a new item</h1>
+    <div class="row">
+        <div class="col col-sm-auto">
+            <form action="/items" method="post">
+                <input type="text" class="form-control" name="key"/>
+                <input type="text" class="form-control" name="value"/>
+                <input type="submit" name="initial" value="Create New"/>
+            </form>
+        </div>
+    </div>
+    <div class="login-page clearfix">
+        <div class="logged-in-box auth0-box logged-in">
+            <h1 id="logo"><img src="//cdn.auth0.com/samples/auth0_logo_final_blue_RGB.png"/></h1>
+            <a class="btn btn-primary btn-xs btn-logout" href="/logout">Logout</a><br/>
+            <img class="avatar" src="{{ userinfo['picture'] }}"/>
+            <h2>Welcome {{ userinfo['name'] }}</h2>
+        </div>
+    </div>
+{% endblock %}
+

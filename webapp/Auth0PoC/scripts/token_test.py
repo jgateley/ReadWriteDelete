@@ -88,34 +88,34 @@ if __name__ == '__main__':
     # Only testing one call, though really should test all
     # It is harder to write tests that accurately test things like a single item detail
     # since you have to ensure the item exists, and the failure is in the authentication
-    token_dict = {}
+    token_info = {}
     exception_raised = False
     try:
-        items = api_get(token_dict, endpoint)
-    except:
+        items = api_get(token_info, endpoint)
+    except Exception:
         exception_raised = True
     if not exception_raised:
         raise Exception("Get succeeded and it shouldn't have")
 
-    token_dict = get_oauth_token()
-    items = api_get(token_dict, endpoint)
-    item = api_get(token_dict, endpoint + '/' + items[0]['key'])
-    api_post(token_dict, endpoint, {"key": test_key, "value": "plugh"})
-    api_delete(token_dict, endpoint + '/' + test_key)
+    token_info = get_oauth_token()
+    items = api_get(token_info, endpoint)
+    item = api_get(token_info, endpoint + '/' + items[0]['key'])
+    api_post(token_info, endpoint, {"key": test_key, "value": "plugh"})
+    api_delete(token_info, endpoint + '/' + test_key)
 
     # Test with invalid access token.
     # Again, only test one case, though all should really be tested
-    access_token = token_dict['access_token']
+    access_token = token_info['access_token']
     char = access_token[0]
     if char == 'A':
         char = 'B'
     else:
         char = 'A'
-    token_dict['access_token'] = char + access_token[1:]
+    token_info['access_token'] = char + access_token[1:]
     exception_raised = False
     try:
-        items = api_get(token_dict, endpoint)
-    except:
+        items = api_get(token_info, endpoint)
+    except Exception:
         exception_raised = True
     if not exception_raised:
         raise Exception("Get succeeded and it shouldn't have")
