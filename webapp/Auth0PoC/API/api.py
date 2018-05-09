@@ -156,6 +156,9 @@ def get_items():
     Gets all items
     :return: the list of items
     """
+    if not requires_scope("read:data"):
+        response = "Scope read:data required"
+        return jsonify(message=response), 401
     return jsonify(models.Item.list())
 
 
@@ -166,6 +169,9 @@ def add_item():
     Add a new item. Return string is empty or an error message
     :return: string, error code
     """
+    if not requires_scope("write:data"):
+        response = "Scope write:data required"
+        return jsonify(message=response), 401
     new_item = request.get_json()
     if 'key' not in new_item or 'value' not in new_item:
         return 'Item requires both key and value', 400
@@ -184,6 +190,9 @@ def show_item(key):
     :param key:
     :return: either json version of the item or an error string X 404
     """
+    if not requires_scope("read:data"):
+        response = "Scope read:data required"
+        return jsonify(message=response), 401
     result = models.Item.get(key)
     if result is None:
         return 'Item ' + str(key) + ' not found', 404
@@ -199,6 +208,9 @@ def delete_item(key):
     :param key: The item to delete
     :return: string or empty, HTTP code
     """
+    if not requires_scope("delete:data"):
+        response = "Scope delete:data required"
+        return jsonify(message=response), 401
     if not models.Item.remove(key):
         return 'Item ' + str(key) + ' not found', 404
     return '', 204

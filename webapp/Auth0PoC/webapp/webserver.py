@@ -56,7 +56,7 @@ auth0 = oauth.register(
     access_token_url=AUTH0_BASE_URL + '/oauth/token',
     authorize_url=AUTH0_BASE_URL + '/authorize',
     client_kwargs={
-        'scope': 'openid profile',
+        'scope': 'openid profile email read:data write:data delete:data',
     },
 )
 
@@ -95,7 +95,7 @@ def callback_handling():
     """
     try:
         resp = auth0.authorize_access_token()
-    except OAuthException:
+    except OAuthException as e:
         return auth0.authorize_redirect(redirect_uri=AUTH0_CALLBACK_URL, audience=CUSTOM_AUDIENCE)
 
     url = AUTH0_BASE_URL + '/userinfo'

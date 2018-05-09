@@ -13,7 +13,8 @@ def get_oauth_token():
                       json={'client_id': '2mRMLBixsqq2wKynxArHOADgL1Eoc3Yb',
                             'client_secret': 'acU5nbJgElE_MPLR8GvJhT3ridoDqyOnrgNiN6zZ0mP0WiPRJNQmBmbWuKxPw8hp',
                             'audience': 'http://auth0.johngateley.com:5010/',
-                            'grant_type': 'client_credentials'})
+                            'grant_type': 'client_credentials',
+                            'scope': 'read:data'})
     result = r.json()
     return result
 
